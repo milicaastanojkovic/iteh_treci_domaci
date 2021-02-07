@@ -5,10 +5,10 @@ export default function Kalkulator() {
     const [tip, setTip] = useState(krediti[0]);
     const [iznos, setIznos] = useState(krediti[0].min);
     const [godine, setGodine] = useState(krediti[0].minGodine);
-    const [rata, setRata] = useState('');
+    const [rata, setRata] = useState(0);
 
     const izracunajUkupno = () => {
-        console.log(tip.kamata / 100)
+
         let vrednost = iznos * Math.pow(1 + tip.kamata / 100, godine) * tip.kamata / 1200;
         vrednost = vrednost / (Math.pow(1 + tip.kamata / 100, godine) - 1);
         setRata(vrednost);
@@ -16,7 +16,7 @@ export default function Kalkulator() {
     useEffect(() => {
         izracunajUkupno();
 
-    })
+    }, [iznos, tip, godine])
     return (
         <div className='container'>
             <div className='row mt-2'>
@@ -42,9 +42,10 @@ export default function Kalkulator() {
                             setGodine(noviTip.maxGodine)
                         }
                         if (godine < noviTip.minGodine) {
+
                             setGodine(noviTip.minGodine)
                         }
-                        izracunajUkupno();
+
                     }} className='form-control mb-4'>
                         {krediti.map(kredit => {
                             return (
@@ -54,21 +55,21 @@ export default function Kalkulator() {
                     </select>
                     <Slider naziv="Izaberite iznos kredita" min={tip.min} max={tip.max} vrednost={iznos} onChange={(val) => {
                         setIznos(val);
-                        izracunajUkupno();
+
                     }} />
                     <Slider naziv="Izaberite vreme otplate" min={tip.minGodine} max={tip.maxGodine} vrednost={godine} onChange={(val) => {
                         setGodine(val);
-                        izracunajUkupno();
+
                     }} />
 
                 </div>
             </div>
             <div className='row mt-2 text-center'>
-                <h1>Ukupan iznos: {12 * godine * rata}</h1>
+                <h1>Ukupan iznos: {(12 * godine * rata).toFixed(2)}</h1>
 
             </div>
             <div className='row mt-2 text-center'>
-                <h1>Mesecna rata: {rata}</h1>
+                <h1>Mesecna rata: {rata.toFixed(2)}</h1>
 
             </div>
         </div>

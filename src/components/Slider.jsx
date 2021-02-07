@@ -15,14 +15,7 @@ export default function Slider(props) {
                 min={props.min} max={props.max} className='form-control' />
             <input type="number" onChange={(e) => {
                 const value = e.target.value;
-                if (value < props.min) {
-                    props.onChange(props.min);
-                    return;
-                }
-                if (value > props.max) {
-                    props.onChange(props.max);
-                    return;
-                }
+
                 props.onChange(value);
             }} value={props.vrednost} className='form-control' />
         </>
